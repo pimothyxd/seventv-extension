@@ -220,6 +220,21 @@ declare module Twitch {
 		onClearChatEvent: (e: { channel: string }) => void;
 	};
 
+	export type ChatListPresentationComponent = ReactExtended.WritableComponent<{
+		isCurrentChannelActiveInSharedChat: boolean;
+		sharedChatDataByChannelID: Map<
+			string,
+			{
+				badges: BadgeSets;
+				displayName: string;
+				login: string;
+				primaryColorHex: string;
+				profileImageURL: string;
+				status: "ACTIVE" | "INACTIVE";
+			}
+		>;
+	}>;
+
 	export interface MessageHandlerAPI {
 		addMessageHandler: (event: (msg: ChatMessage) => void) => void;
 		removeMessageHandler: (event: (msg: ChatMessage) => void) => void;
@@ -437,10 +452,6 @@ declare module Twitch {
 		determineGroup: (command: ChatCommand) => string;
 	};
 
-	export type ChatCommunityPointsButtonComponent = ReactExtended.WritableComponent<{}> & {
-		shouldShowBitsBalance: () => boolean;
-	};
-
 	export type ChatChannelPointsClaimComponent = ReactExtended.WritableComponent<{
 		hidden: boolean;
 	}> & {
@@ -480,7 +491,6 @@ declare module Twitch {
 		sendMessageHandler?: ChatTray.SendMessageHandler<H>;
 		messageHandler?: (v: string) => void;
 		placeholder?: string;
-		floating?: boolean;
 	}
 
 	export namespace ChatTray {
